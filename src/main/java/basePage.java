@@ -1,8 +1,5 @@
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -40,16 +37,19 @@ public class basePage {
     //
     public basePage(AndroidDriver driver) {
         this.driver = driver;
+        wait =new WebDriverWait(driver,20);
     }
 
     public void click(By by) {
-        wait.until(ExpectedConditions.elementToBeClickable(by));
+//        wait.until(ExpectedConditions.elementToBeClickable(by));
         driver.findElement(by).click();
     }
 
     public void sendKeys(By by, String text) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-        wait.until(ExpectedConditions.elementToBeClickable(by)).sendKeys(text);
+//        driver.findElement(by).sendKeys(text);
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+//        wait.until(ExpectedConditions.elementToBeClickable(by));
+        driver.findElement(by).sendKeys(text);
     }
 
     public void quit() {
