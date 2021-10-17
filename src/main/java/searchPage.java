@@ -15,7 +15,12 @@ public class searchPage extends basePage {
 
     public searchPage search(String keyword) {
 //        driver.findElement(By.id("com.xueqiu.android:id/search_input_text")).sendKeys(keyword);
-        sendKeys(By.id("com.xueqiu.android:id/search_input_text"), keyword);
+        do {
+            sendKeys(By.id("com.xueqiu.android:id/search_input_text"), keyword);
+        }while(driver.findElements(name).size()<=0);
+
+
+
         return this;
     }
 
@@ -27,9 +32,11 @@ public class searchPage extends basePage {
 
     public List<String> getSearchlist() {
         List<String> nameList = new ArrayList<>();
-        for (Object element : driver.findElements(name)) {
-            nameList.add(((WebElement) element).getText());
-        }
+//        for (Object element : driver.findElements(name)) {
+//            nameList.add(((WebElement) element).getText());
+//        }
+        //以下lambda表达式可代替上面for循环处理
+        driver.findElements(name).forEach(element-> nameList.add(element.getText()));
         return nameList;
     }
 
@@ -42,7 +49,7 @@ public class searchPage extends basePage {
 
     public double getPrice() {
         selectElement(name);
-        return Double.parseDouble(driver.findElement(By.id("com.xueqiu.android:id/current_price")).getText());
+        return Double.parseDouble(find(By.id("com.xueqiu.android:id/current_price")).getText());
 //        return Double.parseDouble(click(By.id("com.xueqiu.android:id/current_price")).getText());
     }
 

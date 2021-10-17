@@ -1,7 +1,7 @@
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class basePage {
 
-    AndroidDriver driver;
+    AndroidDriver<MobileElement> driver;
     WebDriverWait wait;
 
     public basePage() {
@@ -30,25 +30,27 @@ public class basePage {
         desiredCapabilities.setCapability("noReset", "true");
         desiredCapabilities.setCapability("udid", "");
 
-        driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        this.driver = new AndroidDriver(remoteUrl, desiredCapabilities);
+        this.driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        wait =new WebDriverWait(this.driver,20);
     }
 
     //
     public basePage(AndroidDriver driver) {
         this.driver = driver;
-        wait =new WebDriverWait(driver,20);
+        wait =new WebDriverWait(this.driver,20);
+    }
+
+    public MobileElement find(By by){
+        return driver.findElement(by);
     }
 
     public void click(By by) {
-//        wait.until(ExpectedConditions.elementToBeClickable(by));
+//        wait.until(ExpectedConditions.elementToBeClickable(by));移动端不需要wait.until处理,所有控件出现即可点击
         driver.findElement(by).click();
     }
 
     public void sendKeys(By by, String text) {
-//        driver.findElement(by).sendKeys(text);
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-//        wait.until(ExpectedConditions.elementToBeClickable(by));
         driver.findElement(by).sendKeys(text);
     }
 
